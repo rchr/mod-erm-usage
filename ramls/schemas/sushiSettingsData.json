@@ -16,7 +16,7 @@
       "type": "string"
     },
     "harvesting_active": {
-      "type": "boolean"
+      "type": "string"
     },
     "aggregator": {
       "type": "object",

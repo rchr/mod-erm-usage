@@ -18,6 +18,12 @@
     "api_key": {
       "type": "string"
     },
+    "customer_id": {
+      "type": "string"
+    },
+    "requestor_id": {
+      "type": "string"
+    },
     "service_url": {
       "type": "string"
     },
@@ -62,6 +68,8 @@
     "label",
     "username",
     "password",
+    "customer_id",
+    "requestor_id",
     "service_url",
     "account_config"
   ],
