@@ -1,4 +1,4 @@
-package org.folio.rest.impl.counter.statistikserver;
+package org.folio.rest.impl.counter.sushi;
 
 import javax.xml.xpath.XPathExpressionException;
 import org.folio.rest.util.XMLUtils;

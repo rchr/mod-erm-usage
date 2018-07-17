@@ -10,9 +10,9 @@ import org.folio.rest.jaxrs.model.SushiSetting;
 
 public class CounterDownloaderFactory {
 
-  public static Set<CounterDownloaderInterface> createDownloader(SushiSetting sushiSetting,
+  public static Set<CounterDownloader> createDownloader(SushiSetting sushiSetting,
       AggregatorSetting aggregatorSetting, Vertx vertx, String tenantName) {
-    Set<CounterDownloaderInterface> downloader = new HashSet<>();
+    Set<CounterDownloader> downloader = new HashSet<>();
     if (aggregatorSetting.getLabel().equals("Nationaler Statistikserver")) {
       downloader = createStatistikServerDownloader(
           aggregatorSetting, sushiSetting, vertx, tenantName);
@@ -20,9 +20,9 @@ public class CounterDownloaderFactory {
     return downloader;
   }
 
-  private static Set<CounterDownloaderInterface> createStatistikServerDownloader(
+  private static Set<CounterDownloader> createStatistikServerDownloader(
       AggregatorSetting aggregatorSetting, SushiSetting sushiSetting, Vertx vertx, String tenantName) {
-    Set<CounterDownloaderInterface> counterDownloaderSet = new HashSet<>();
+    Set<CounterDownloader> counterDownloaderSet = new HashSet<>();
     String apiKey = aggregatorSetting.getApiKey();
     String customerId = aggregatorSetting.getCustomerId();
     String requestorId = aggregatorSetting.getRequestorId();

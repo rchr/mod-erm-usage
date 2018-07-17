@@ -16,8 +16,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import org.folio.rest.impl.counter.statistikserver.ExceptionFactory;
-import org.folio.rest.impl.counter.statistikserver.SushiException;
+import org.folio.rest.impl.counter.sushi.ExceptionFactory;
+import org.folio.rest.impl.counter.sushi.SushiException;
 import org.folio.rest.persist.PostgresClient;
 import org.joda.time.DateTime;
 import org.w3c.dom.Document;
@@ -95,6 +95,7 @@ public class Counter4Handler implements Handler<AsyncResult<Buffer>> {
 
         PostgresClient postgresClient = PostgresClient
             .getInstance(vertx, tenantId);
+
         postgresClient.save("counter_reports", jsonObject, event -> {
           if (event.succeeded()) {
             System.out.println("YES");

@@ -1,18 +1,13 @@
 package org.folio.rest.impl.counter.service.downloader;
 
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Future;
 import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.web.client.HttpRequest;
-import io.vertx.ext.web.client.HttpResponse;
-import io.vertx.ext.web.client.WebClient;
 import java.util.Map;
 
-public class StatistikServerDownloader extends CounterDownloaderInterface {
+public class StatistikServerDownloader extends CounterDownloader {
 
   private final Logger logger = LoggerFactory.getLogger(StatistikServerDownloader.class);
 
@@ -25,8 +20,6 @@ public class StatistikServerDownloader extends CounterDownloaderInterface {
   private String beginDate;
   private String endDate;
   private String platform;
-
-  private Handler<AsyncResult<Buffer>> counterHandler;
 
   public StatistikServerDownloader(String serviceUrl, String apiKey, String requestorId,
       String customerId, String report, String platform,
@@ -45,7 +38,7 @@ public class StatistikServerDownloader extends CounterDownloaderInterface {
     this.counterHandler = counterHandler;
   }
 
-  @Override
+/*  @Override
   public void fetchCounter(Vertx vertx) {
     WebClient webClient = WebClient.create(vertx);
     String url = createUrl();
@@ -55,19 +48,12 @@ public class StatistikServerDownloader extends CounterDownloaderInterface {
         HttpResponse<Buffer> result = res.result();
         Buffer body = res.result().body();
         this.counterHandler.handle(Future.succeededFuture(body));
-
-       /* // TODO: Insert report into database
-        try {
-          processResponse(result, vertx, tenant);
-        } catch (XPathExpressionException e) {
-          e.printStackTrace();
-        }*/
-
       }
     });
-  }
+  }*/
 
-  private String createUrl() {
+  @Override
+  String createUrl() {
     String url = "https://sushi.redi-bw.de/dev/Sushiservice/GetReport?"
         + "APIKey=" + this.apiKey + "&"
         + "RequestorID=" + this.requestorId + "&"
