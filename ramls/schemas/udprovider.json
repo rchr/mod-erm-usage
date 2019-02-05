@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Usage Data Provider Schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "vendor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the the reports content’s vendor, linked via uuid from vendor app."
+        },
+        "name": {
+          "type": "string",
+          "description": "Vendor's name. If not given, it will be determined by backend module."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "platform": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the the reports content’s platform, linked via uuid from ERM app."
+        },
+        "name": {
+          "type": "string",
+          "description": "Platform's name. If not given, it will be determined by backend module."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "harvestingConfig": {
+      "type": "object",
+      "description": "Specifies harvesting configuration",
+      "properties": {
+        "harvestingStatus": {
+          "type": "string",
+          "enum": [
+            "active",
+            "inactive"
+          ]
+        },
+        "harvestVia": {
+          "type": "string",
+          "description": "Specifies how to harvest usage data, from an aggregator or directly from a provider via Sushi.",
+          "enum": [
+            "aggregator",
+            "sushi"
+          ]
+        },
+        "sushiConfig": {
+          "type": "object",
+          "properties": {
+            "serviceType": {
+              "type": "string",
+              "description": "Type of SUSHI service (i.e. cs41 for Counter-Sushi 4.1) for direct harvesting."
+            },
+            "serviceUrl": {
+              "type": "string",
+              "description": "Direct SUSHI service URL to access provider's SUSHI service."
+            }
+          },
+          "required": [
+            "serviceType",
+            "serviceUrl"
+          ]
+        },
+        "aggregator": {
+          "type": "object",
+          "description": "Links to aggregator, if statistic shall be harvested via aggregator",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Id of aggregator, linking of an aggregator predefined by an admin in the app settings"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the linked aggregator"
+            },
+            "vendorCode": {
+              "type": "string",
+              "description": "Code used by the aggregator to identify the vendor (e. g. platform parameter at National Statistic Server)"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "reportRelease": {
+          "type": "integer",
+          "description": "Specifies the counter report version."
+        },
+        "requestedReports": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string"
+          }
+        },
+        "harvestingStart": {
+          "type": "string",
+          "format": "date-month"
+        },
+        "harvestingEnd": {
+          "type": "string",
+          "format": "date-month"
+        }
+      },
+      "required": [
+        "harvestingStatus",
+        "useAggregator",
+        "reportRelease",
+        "requestedReports",
+        "harvestingStart"
+      ]
+    },
+    "sushiCredentials": {
+      "type": "object",
+      "description": "Defines credentials to access SUSHI service of usage data provider",
+      "properties": {
+        "customerId": {
+          "type": "string"
+        },
+        "requestorId": {
+          "type": "string"
+        },
+        "apiKey": {
+          "type": "string"
+        },
+        "requestorName": {
+          "type": "string"
+        },
+        "requestorMail": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "customerId",
+        "requestorId"
+      ]
+    },
+    "latestReport": {
+      "type": "string"
+    },
+    "earliestReport": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "$ref": "../raml-util/schemas/metadata.schema"
+    },
+    "tags": {
+      "type": "object",
+      "$ref": "../raml-util/schemas/tags.schema"
+    }
+  },
+  "required": [
+    "label",
+    "vendor",
+    "platform",
+    "harvestingConfig",
+    "sushiCredentials"
+  ],
+  "additionalProperties": true
+}

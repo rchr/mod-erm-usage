@@ -4,13 +4,19 @@
 
   <groupId>org.olf</groupId>
   <artifactId>mod-erm-usage</artifactId>
-  <version>0.0.2</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>https://spdx.org/licenses/Apache-2.0</url>
+    </license>
+  </licenses>
 
   <modules>
     <module>mod-erm-usage-server</module>
     <module>mod-erm-usage-client</module>
-    <module>mod-erm-usage-harvester</module>
   </modules>
 
   <properties>
@@ -19,9 +25,12 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
-    <raml-module-builder.version>19.1.1</raml-module-builder.version>
+    <raml-module-builder.version>23.4.0</raml-module-builder.version>
     <ramlfiles_path>${project.parent.basedir}/ramls</ramlfiles_path>
-    <vertx.version>3.5.1</vertx.version>
+    <okapi.version>2.19.0</okapi.version>
+    <vertx.version>3.5.4</vertx.version>
+
+    <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
   </properties>
 
   <repositories>
@@ -39,6 +48,12 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.11.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -54,19 +69,110 @@
           <tagNameFormat>v@{project.version}</tagNameFormat>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.1</version>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.22.1</version>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.1</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>filter-descriptor-inputs</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/descriptors</directory>
+                  <include>*-template.json</include>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.coderplus.maven.plugins</groupId>
+        <artifactId>copy-rename-maven-plugin</artifactId>
+        <version>1.0</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>rename-descriptor-outputs</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>rename</goal>
+            </goals>
+            <configuration>
+              <fileSets>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/ModuleDescriptor-template.json</sourceFile>
+                  <destinationFile>${project.build.directory}/ModuleDescriptor.json
+                  </destinationFile>
+                </fileSet>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/DeploymentDescriptor-template.json
+                  </sourceFile>
+                  <destinationFile>${project.build.directory}/DeploymentDescriptor.json
+                  </destinationFile>
+                </fileSet>
+                <fileSet>
+                  <sourceFile>${project.build.directory}/DockerDeploymentDescriptor-template.json
+                  </sourceFile>
+                  <destinationFile>${project.build.directory}/DockerDeploymentDescriptor.json
+                  </destinationFile>
+                </fileSet>
+              </fileSets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
-  <scm>
-    <developerConnection>scm:git:git@git.sc.uni-leipzig.de:ubl/amsl/mod-erm-usage.git</developerConnection>
-    <tag>v0.0.2</tag>
-  </scm>
-
   <distributionManagement>
     <repository>
-      <id>ubl-nexus</id>
-      <url>https://services.ub.uni-leipzig.de/nexus/repository/maven-releases/</url>
+      <id>folio-nexus</id>
+      <name>FOLIO Release Repository</name>
+      <url>https://repository.folio.org/repository/maven-releases/</url>
+      <uniqueVersion>false</uniqueVersion>
+      <layout>default</layout>
     </repository>
+    <snapshotRepository>
+      <id>folio-nexus</id>
+      <name>FOLIO Snapshot Repository</name>
+      <uniqueVersion>true</uniqueVersion>
+      <url>https://repository.folio.org/repository/maven-snapshots/</url>
+      <layout>default</layout>
+    </snapshotRepository>
   </distributionManagement>
+
+  <scm>
+    <url>https://github.com/folio-org/${artifactId}</url>
+    <connection>scm:git:git://github.com/folio-org/${artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:folio-org/${artifactId}.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
 </project>

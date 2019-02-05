@@ -1,26 +1,29 @@
 {
-  "id": "bf6c9ddc-ff82-40c4-be64-dd2414bdcd72",
-  "label": "Data provider without aggregator",
+  "id": "bf6c9ddc-ff82-40c4-be64-dd2414bdcd73",
+  "label": "Data provider with aggregator",
   "vendor": {
-    "id": "uuid-123456789"
-   },
-  "platform": {
-    "id": "uuid-123456789"
-  },
+      "id": "uuid-123456789"
+     },
+    "platform": {
+      "id": "uuid-123456789"
+    },
   "harvestingConfig": {
     "harvestingStatus": "active",
-    "harvestVia": "sushi",
+    "harvestVia": "aggregator",
     "sushiConfig": {
       "serviceType": "cs41",
       "serviceUrl": "http://myvendor.com"
+    },
+    "aggregator": {
+      "id": "4c66b956-23a8-4418-aef6-1c35dcdaccc4",
+      "vendorCode": "ACMDL"
     },
     "reportRelease": 4,
     "requestedReports": [
       "JR1",
       "TR1"
     ],
-    "harvestingStart": "2018-01",
-    "harvestingEnd": "2018-12"
+    "harvestingStart": "2018-01"
   },
   "sushiCredentials": {
     "customerId": "12345def",
@@ -29,7 +32,5 @@
     "requestorName": "Karla Kolumna",
     "requestorMail": "kolumna@ub.uni-leipzig.de"
   },
-  "earliestReport": "2017-01",
-  "latestReport": "2017-12",
   "notes": "This is a note!"
 }
